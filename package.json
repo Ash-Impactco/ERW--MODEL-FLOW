@@ -1,0 +1,20 @@
+{
+  "name": "ilha-carbon-model",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run --exclude tests/**",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:all": "npm run test && npm run test:e2e",
+    "start": "python3 -m http.server 4173",
+    "lint:check": "node --check app.js && node --check model.js && node --check data.js"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
+    "@playwright/test": "^1.54.1",
+    "lighthouse": "^12.2.0",
+    "vitest": "^2.1.9"
+  }
+}

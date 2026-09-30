@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Ilha Carbon model for ERW project screening on São Miguel, Azores." />
+    <meta name="theme-color" content="#0f172a" />
+    <title>Ilha Carbon model</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">ERW model</p>
+          <h1>Ilha Carbon</h1>
+        </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle light and dark mode">
+          Dark mode
+        </button>
+      </header>
+
+      <main class="layout">
+        <section class="panel form-panel" aria-labelledby="scenario-heading">
+          <h2 id="scenario-heading">Scenario settings</h2>
+
+          <div class="field-grid">
+            <label class="field">
+              <span>Area, ha</span>
+              <input id="areaHa" name="areaHa" type="number" min="0" step="1" value="1500" />
+            </label>
+
+            <label class="field">
+              <span>Application rate, t/ha</span>
+              <input id="applicationRate" name="applicationRate" type="number" min="0" step="0.1" value="40" />
+            </label>
+
+            <label class="field">
+              <span>Creditable CO2, t/t rock</span>
+              <input id="creditablePerT" name="creditablePerT" type="number" min="0" max="1" step="0.01" value="0.2" />
+            </label>
+
+            <label class="field">
+              <span>Discount</span>
+              <input id="discount" name="discount" type="number" min="0" max="0.99" step="0.01" value="0.2" />
+            </label>
+
+            <label class="field">
+              <span>Rock price, €/t</span>
+              <input id="rockPricePerT" name="rockPricePerT" type="number" min="0" step="0.1" value="23" />
+            </label>
+
+            <label class="field">
+              <span>MRV cost, €/ha</span>
+              <input id="mrvCostPerHa" name="mrvCostPerHa" type="number" min="0" step="1" value="480" />
+            </label>
+
+            <label class="field">
+              <span>Fixed MRV cost, €</span>
+              <input id="fixedMrvCost" name="fixedMrvCost" type="number" min="0" step="100" value="30000" />
+            </label>
+
+            <label class="field">
+              <span>Credit price, €/credit</span>
+              <input id="creditPrice" name="creditPrice" type="number" min="0" step="1" value="60" />
+            </label>
+          </div>
+
+          <div class="sentence-block">
+            <label class="field">
+              <span>Project sentence one</span>
+              <input id="projectSentenceOne" type="text" value="Sustainable ERW deployment on acidic dairy pasture in the Azores." />
+            </label>
+            <label class="field">
+              <span>Project sentence two</span>
+              <input id="projectSentenceTwo" type="text" value="Basalt fines spread to accelerate weathering and long-term carbon storage." />
+            </label>
+            <label class="field">
+              <span>Project sentence three</span>
+              <input id="projectSentenceThree" type="text" value="Early-stage screening for a compliant, measurable carbon removal pathway." />
+            </label>
+          </div>
+
+          <div class="preset-row" aria-label="Scenario presets">
+            <button class="preset-button is-active" data-preset="baseline" type="button">Baseline</button>
+            <button class="preset-button" data-preset="reducedRate" type="button">Reduced rate</button>
+            <button class="preset-button" data-preset="lowerMrv" type="button">Lower MRV</button>
+          </div>
+
+          <div class="actions-row">
+            <button id="resetModel" class="secondary" type="button">Reset</button>
+          </div>
+        </section>
+
+        <section class="panel results-panel" aria-labelledby="results-heading">
+          <h2 id="results-heading">Results</h2>
+
+          <dl class="stats">
+            <div>
+              <dt>Basalt spread</dt>
+              <dd id="resultBasaltTonnes">0 t</dd>
+            </div>
+            <div>
+              <dt>Credits</dt>
+              <dd id="resultCredits">0</dd>
+            </div>
+            <div>
+              <dt>Cost per credit</dt>
+              <dd id="resultCostPerCredit">€0</dd>
+            </div>
+            <div>
+              <dt>Net margin</dt>
+              <dd id="resultNetMargin">€0</dd>
+            </div>
+            <div>
+              <dt>Break-even area</dt>
+              <dd id="resultBreakEvenArea">n/a</dd>
+            </div>
+          </dl>
+
+          <div class="sentence-output" aria-live="polite">
+            <p id="sentenceOutputOne">Sustainable ERW deployment on acidic dairy pasture in the Azores.</p>
+            <p id="sentenceOutputTwo">Basalt fines spread to accelerate weathering and long-term carbon storage.</p>
+            <p id="sentenceOutputThree">Early-stage screening for a compliant, measurable carbon removal pathway.</p>
+          </div>
+        </section>
+      </main>
+
+      <section class="panel info-panel" aria-labelledby="stakeholder-heading">
+        <div class="section-topline">
+          <h2 id="stakeholder-heading">Stakeholder view</h2>
+          <div class="filter-group" aria-label="Stakeholder filters">
+            <button class="filter-button is-active" type="button" data-stakeholder="all">All</button>
+            <button class="filter-button" type="button" data-stakeholder="farmer">Farmer</button>
+            <button class="filter-button" type="button" data-stakeholder="investor">Investor</button>
+            <button class="filter-button" type="button" data-stakeholder="regulator">Regulator</button>
+            <button class="filter-button" type="button" data-stakeholder="research">Research</button>
+          </div>
+        </div>
+
+        <div class="phase-list" aria-label="Project phases">
+          <div class="phase-item">
+            <button class="phase-toggle" type="button" aria-expanded="false">Scoping</button>
+            <div class="phase-content" hidden>
+              <p>Map land, basalt source and application window.</p>
+            </div>
+          </div>
+          <div class="phase-item">
+            <button class="phase-toggle" type="button" aria-expanded="false">Field activity</button>
+            <div class="phase-content" hidden>
+              <p>Apply fines and log application rates across paddocks.</p>
+            </div>
+          </div>
+          <div class="phase-item">
+            <button class="phase-toggle" type="button" aria-expanded="false">Monitoring</button>
+            <div class="phase-content" hidden>
+              <p>Track weathering, soil conditions and carbon evidence.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel mindmap-panel" aria-labelledby="mindmap-heading">
+        <h2 id="mindmap-heading">Mind map</h2>
+        <div class="mind-map" aria-live="polite">
+          <svg viewBox="0 0 440 220" role="img" aria-label="Project logic mind map" class="mind-map-svg">
+            <circle cx="70" cy="110" r="40" class="node" />
+            <circle cx="220" cy="60" r="38" class="node" />
+            <circle cx="220" cy="160" r="38" class="node" />
+            <circle cx="360" cy="110" r="42" class="node" />
+            <path d="M110 110 L180 80" />
+            <path d="M110 110 L180 160" />
+            <path d="M258 80 L320 100" />
+            <path d="M258 160 L320 125" />
+            <text x="70" y="115" text-anchor="middle">Basalt</text>
+            <text x="220" y="65" text-anchor="middle">Apply</text>
+            <text x="220" y="165" text-anchor="middle">Soil</text>
+            <text x="360" y="115" text-anchor="middle">Credits</text>
+          </svg>
+
+          <ul class="mind-map-list" aria-label="Project logic list">
+            <li>Basalt quarry</li>
+            <li>Farm spread</li>
+            <li>Soil weathering</li>
+            <li>MRV evidence</li>
+            <li>Carbon credits</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
